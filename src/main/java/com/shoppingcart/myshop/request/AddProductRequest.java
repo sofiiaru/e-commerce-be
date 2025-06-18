@@ -1,6 +1,7 @@
 package com.shoppingcart.myshop.request;
 
 import com.shoppingcart.myshop.model.Category;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
