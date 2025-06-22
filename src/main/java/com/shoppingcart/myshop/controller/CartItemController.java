@@ -2,7 +2,9 @@ package com.shoppingcart.myshop.controller;
 
 import com.shoppingcart.myshop.exceptions.ResourceNotFoundException;
 import com.shoppingcart.myshop.response.ApiResponse;
-import com.shoppingcart.myshop.service.cart.CartItemService;
+
+import com.shoppingcart.myshop.service.cart.ICartItemService;
+import com.shoppingcart.myshop.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("${api.prefix}/cart-items")
 @RequiredArgsConstructor
 public class CartItemController {
-    private final CartItemService cartItemService;
+    private final ICartItemService cartItemService;
+    private final ICartService cartService;
 
     @PostMapping("/item/add")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long cartId,
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId,
                                                      @RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
 
         try {
+            if(cartId == null) {
+                cartId = cartService.initializeNewCart();
+            }
             cartItemService.addItemToCart(cartId, productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Added successfully", null));
         } catch (ResourceNotFoundException e) {
