@@ -1,5 +1,6 @@
 package com.shoppingcart.myshop.repository;
 
+import com.shoppingcart.myshop.dto.OrderDto;
 import com.shoppingcart.myshop.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 

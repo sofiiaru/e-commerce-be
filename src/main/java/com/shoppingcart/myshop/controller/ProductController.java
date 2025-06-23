@@ -1,6 +1,6 @@
 package com.shoppingcart.myshop.controller;
 
-import com.shoppingcart.myshop.dto.ProductDTO;
+import com.shoppingcart.myshop.dto.ProductDto;
 import com.shoppingcart.myshop.exceptions.ResourceNotFoundException;
 import com.shoppingcart.myshop.model.Product;
 import com.shoppingcart.myshop.request.AddProductRequest;
@@ -24,8 +24,8 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getAllProducts() {
         try {
             List<Product> products = productService.getAllProducts();
-            List<ProductDTO> productDTOs = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse("Found!", productDTOs));
+            List<ProductDto> productDtos = productService.getConvertedProducts(products);
+            return ResponseEntity.ok(new ApiResponse("Found!", productDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Error!", e.getMessage()));
@@ -60,7 +60,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody UpdateProductRequest product, @PathVariable Long productId) {
         try {
             Product theProduct = productService.updateProduct(product, productId);
-            ProductDTO productDTO = productService.convertToDTO(theProduct);
+            ProductDto productDTO = productService.convertToDTO(theProduct);
             return ResponseEntity.ok(new ApiResponse("Updated!", productDTO));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -83,12 +83,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getProductByBrandAndName(@RequestParam String brand, @RequestParam String name) {
         try {
             List<Product> products = productService.getProductsByBrandAndName(brand, name);
-            List<ProductDTO> productDTOs = productService.getConvertedProducts(products);
+            List<ProductDto> productDtos = productService.getConvertedProducts(products);
             if(products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse("No product found!", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Found!", productDTOs));
+            return ResponseEntity.ok(new ApiResponse("Found!", productDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -99,12 +99,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getProductByCategoryAndName(@RequestParam String category, @RequestParam String brand) {
         try {
             List<Product> products = productService.getProductsByCategoryNameAndBrand(category, brand);
-            List<ProductDTO> productDTOs = productService.getConvertedProducts(products);
+            List<ProductDto> productDtos = productService.getConvertedProducts(products);
             if(products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse("No product found!", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Found!", productDTOs));
+            return ResponseEntity.ok(new ApiResponse("Found!", productDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -115,12 +115,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getProductByName(@PathVariable String name) {
         try {
             List<Product> products = productService.getProductsByName(name);
-            List<ProductDTO> productDTOs = productService.getConvertedProducts(products);
+            List<ProductDto> productDtos = productService.getConvertedProducts(products);
             if(products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse("No product found!", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Found!", productDTOs));
+            return ResponseEntity.ok(new ApiResponse("Found!", productDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -131,12 +131,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getProductByBrand(@PathVariable String brand) {
         try {
             List<Product> products = productService.getProductsByBrand(brand);
-            List<ProductDTO> productDTOs = productService.getConvertedProducts(products);
+            List<ProductDto> productDtos = productService.getConvertedProducts(products);
             if(products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse("No product found!", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Found!", productDTOs));
+            return ResponseEntity.ok(new ApiResponse("Found!", productDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -147,12 +147,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> findProductByCategory(@PathVariable String category) {
         try {
             List<Product> products = productService.getProductsByCategoryName(category);
-            List<ProductDTO> productDTOs = productService.getConvertedProducts(products);
+            List<ProductDto> productDtos = productService.getConvertedProducts(products);
             if(products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ApiResponse("No product found!", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Found!", productDTOs));
+            return ResponseEntity.ok(new ApiResponse("Found!", productDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));

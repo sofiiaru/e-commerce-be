@@ -1,7 +1,7 @@
 package com.shoppingcart.myshop.service.product;
 
-import com.shoppingcart.myshop.dto.ImageDTO;
-import com.shoppingcart.myshop.dto.ProductDTO;
+import com.shoppingcart.myshop.dto.ImageDto;
+import com.shoppingcart.myshop.dto.ProductDto;
 import com.shoppingcart.myshop.exceptions.ResourceNotFoundException;
 import com.shoppingcart.myshop.model.Category;
 import com.shoppingcart.myshop.model.Image;
@@ -122,18 +122,18 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductDTO> getConvertedProducts(List<Product> products) {
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
         return products.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProductDTO convertToDTO(Product product) {
-        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+    public ProductDto convertToDTO(Product product) {
+        ProductDto productDTO = modelMapper.map(product, ProductDto.class);
         List<Image> images = imageRepository.findByProductId(product.getId());
-        List<ImageDTO> imageDTOs = images.stream()
-                .map(image -> modelMapper.map(image, ImageDTO.class))
+        List<ImageDto> imageDTOs = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
                 .collect(Collectors.toList());
         productDTO.setImages(imageDTOs);
         return productDTO;

@@ -1,6 +1,6 @@
 package com.shoppingcart.myshop.service.image;
 
-import com.shoppingcart.myshop.dto.ImageDTO;
+import com.shoppingcart.myshop.dto.ImageDto;
 import com.shoppingcart.myshop.exceptions.ResourceNotFoundException;
 import com.shoppingcart.myshop.model.Image;
 import com.shoppingcart.myshop.model.Product;
@@ -37,9 +37,9 @@ public class ImageService implements IImageService{
     }
 
     @Override
-    public List<ImageDTO> saveImage(List<MultipartFile> files, Long productId) {
+    public List<ImageDto> saveImage(List<MultipartFile> files, Long productId) {
         Product product = productService.getProductById(productId);
-        List<ImageDTO> savedImageDto = new ArrayList<>();
+        List<ImageDto> savedImageDto = new ArrayList<>();
         for(MultipartFile file : files) {
            try {
                Image image = new Image();
@@ -56,7 +56,7 @@ public class ImageService implements IImageService{
                savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
                imageRepository.save(image);
 
-               ImageDTO imageDTO = new ImageDTO();
+               ImageDto imageDTO = new ImageDto();
                imageDTO.setId(savedImage.getId());
                imageDTO.setImageName(savedImage.getFileName());
                imageDTO.setDownloadUrl(savedImage.getDownloadUrl());
