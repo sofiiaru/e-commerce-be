@@ -38,11 +38,16 @@ public class ProductService implements IProductService {
                     Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
                 });
-
+        if(productExists(request.getName(), request.getBrand())) {
+            throw new RuntimeException("Product already exists!");
+        }
         request.setCategory(category);
         return productRepository.save(createProduct(request, category));
     }
 
+    private boolean productExists(String name, String brand) {
+        return productRepository.existsByNameAndBrand(name, brand);
+    }
     private Product createProduct(AddProductRequest request, Category category) {
         return new Product(
                request.getName(),

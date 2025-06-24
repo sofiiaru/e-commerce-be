@@ -21,8 +21,9 @@ public class OrderController {
     @PostMapping("/create/")
     public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId) {
         try {
-            OrderDto order = orderService.placeOrder(userId);
-            return ResponseEntity.ok(new ApiResponse("Order created!", order));
+            Order order = orderService.placeOrder(userId);
+            OrderDto orderDto = orderService.convertToDto(order);
+            return ResponseEntity.ok(new ApiResponse("Order created!", orderDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred", e.getMessage()));
         }
@@ -31,8 +32,9 @@ public class OrderController {
     @GetMapping("/order/{orderId}")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId) {
         try {
-            OrderDto order = orderService.getOrder(orderId);
-            return ResponseEntity.ok(new ApiResponse("Order found!", order));
+            Order order = orderService.getOrder(orderId);
+            OrderDto orderDto = orderService.convertToDto(order);
+            return ResponseEntity.ok(new ApiResponse("Order found!", orderDto));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Order not found!", e.getMessage()));
         }

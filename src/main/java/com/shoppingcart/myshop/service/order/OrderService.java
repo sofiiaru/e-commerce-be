@@ -30,7 +30,7 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public OrderDto placeOrder(Long userId) {
+    public Order placeOrder(Long userId) {
         Cart cart = cartService.getCartByUserId(userId);
         Order order = createOrder(cart);
         List<OrderItem> orderItems = createOrderItems(order, cart);
@@ -38,7 +38,7 @@ public class OrderService implements IOrderService {
         order.setOrderTotal(calculateTotalAmount(orderItems));
         Order savedOrder = orderRepository.save(order);
         cartService.clearCart(cart.getId());
-        return convertToDto(savedOrder);
+        return savedOrder;
     }
 
     private Order createOrder(Cart cart) {
@@ -72,8 +72,8 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public OrderDto getOrder(Long orderId) {
-        return orderRepository.findById(orderId).map(this::convertToDto)
+    public Order getOrder(Long orderId) {
+        return orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 
@@ -83,7 +83,8 @@ public class OrderService implements IOrderService {
                 .collect(Collectors.toList());
     }
 
-    private OrderDto convertToDto(Order order) {
+    @Override
+    public OrderDto convertToDto(Order order) {
         return modelMapper.map(order, OrderDto.class);
     }
 }

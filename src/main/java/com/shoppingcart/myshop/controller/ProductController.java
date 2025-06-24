@@ -50,8 +50,8 @@ public class ProductController {
             Product theProduct = productService.addProduct(product);
             var productDTO = productService.convertToDTO(theProduct);
             return ResponseEntity.ok(new ApiResponse("Added!", productDTO));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ApiResponse(e.getMessage(), null));
         }
     }
